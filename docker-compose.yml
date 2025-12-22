@@ -1,0 +1,39 @@
+services:
+  client:
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile.dev
+    depends_on:
+      - db
+    volumes:
+      - ./.env:/src/.env
+      - ./client:/src
+      - node_modules:/src/node_modules
+    environment:
+      - DEFAULT_SERVER=${CLIENT_DEFAULT_SERVER}
+    ports:
+      - ${CLIENT_PORT}:3000
+    networks:
+      - internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ${SERVER_DATABASE_USER}
+      POSTGRES_PASSWORD: ${SERVER_DATABASE_PASSWORD}
+      POSTGRES_DB: ${SERVER_DATABASE_NAME}
+    ports:
+      - ${SERVER_DATABASE_PORT}:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - internal
+
+volumes:
+  db_data:
+  node_modules:
+
+networks:
+  internal:

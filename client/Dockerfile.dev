@@ -1,0 +1,6 @@
+FROM node:24.11-bookworm-slim
+WORKDIR /src
+ENV NODE_ENV=development
+COPY --link ./client/package.json ./client/package-lock.json ./
+RUN npm install 
+CMD [ "npm", "run", "dev" ]
