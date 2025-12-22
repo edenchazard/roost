@@ -2,7 +2,7 @@ use crate::models::{self, Album, Track};
 use crate::schema::albums::dsl::*;
 use axum::{Json, Router, extract::Path, http::StatusCode, response::IntoResponse, routing::get};
 use diesel::ExpressionMethods;
-use diesel::query_dsl::methods::FilterDsl;
+use diesel::query_dsl::methods::{FilterDsl, OrderDsl};
 use diesel::{
     OptionalExtension, RunQueryDsl, SelectableHelper,
     query_dsl::methods::{FindDsl, SelectDsl},
@@ -73,6 +73,7 @@ async fn show_tracks(Path(album_id): Path<i32>) -> Result<impl IntoResponse, Sta
     let results = tracks::table
         .select(Track::as_select())
         .filter(tracks::album.eq(album.title))
+        .order(tracks::track_number.asc())
         .load::<models::Track>(conn);
 
     match results {

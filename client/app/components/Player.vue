@@ -4,28 +4,35 @@
   >
     <div class="flex items-center">
       <img
-        src="http://localhost:3001/assets/album-art/Love_Wing_Bell.webp"
+        src="http://localhost:3001/assets/album-art/luna_夏の夜明けを待つ僕ら.jpg"
         class="size-12 border border-white/20 rounded-md inline-block mr-4 float-left"
       />
       <div class="flex-1 flex flex-col gap-2">
-        <div class="text-xs text-center">Artist Name &mdash; Song Title</div>
-        <div class="flex justify-center gap-8">
-          <button
-            @click="handlePrevious"
-            aria-label="Previous"
+        <div class="text-xs text-center">
+          <span
+            v-if="
+              usePlayerStore.current.value?.artist &&
+              usePlayerStore.current.value.title
+            "
           >
+            {{ usePlayerStore.current.value.artist }} &mdash;
+            {{ usePlayerStore.current.value.title }}
+          </span>
+        </div>
+        <div class="flex justify-center gap-8">
+          <button aria-label="Previous">
             <Icon
               name="mdi:skip-previous"
               size="2em"
             />
           </button>
           <button
-            @click="togglePlay"
-            :aria-pressed="isPlaying"
+            @click="usePlayerStore.togglePlay"
+            :aria-pressed="usePlayerStore.isPlaying.value"
             aria-label="Play/Pause"
           >
             <Icon
-              v-if="!isPlaying"
+              v-if="!usePlayerStore.isPlaying.value"
               size="2em"
               name="mdi:play"
             />
@@ -35,10 +42,7 @@
               name="mdi:pause"
             />
           </button>
-          <button
-            @click="handleNext"
-            aria-label="Next"
-          >
+          <button aria-label="Next">
             <Icon
               name="mdi:skip-next"
               size="2em"
@@ -48,101 +52,56 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-[auto_1fr_auto] items-center gap-2 my-2">
-      <span class="time">{{ formattedTime(currentTime) }}</span>
+    <div class="grid grid-cols-[auto_1fr_auto] items-center gap-2 my-2 text-xs">
+      <span class="time">
+        {{ formattedTime(usePlayerStore.currentTime.value) }}
+      </span>
       <input
         type="range"
         min="0"
-        :max="duration || 0"
+        :max="usePlayerStore.duration.value ?? 0"
         class="w-full"
         step="0.1"
-        v-model.number="seekPos"
-        @input="handleOnSeekInput"
-        @change="handleOnSeekChange"
+        v-model.number="usePlayerStore.seekPos.value"
+        @input="usePlayerStore.handleOnSeekInput"
+        @change="usePlayerStore.handleOnSeekChange"
       />
-      <span class="time">{{ formattedTime(duration) }}</span>
+      <span class="time">
+        {{ formattedTime(usePlayerStore.duration.value) }}
+      </span>
     </div>
 
     <audio
-      ref="audio"
-      :src="src"
-      @play="handleOnPlay"
-      @pause="handleOnPause"
-      @timeupdate="handleOnTime"
-      @loadedmetadata="handleOnLoaded"
-      @ended="handleOnEnded"
+      :ref="usePlayerStore.audioElementRefId"
+      :src="usePlayerStore.current.value?.audioUrl"
+      @play="usePlayerStore.handleOnPlay"
+      @pause="usePlayerStore.handleOnPause"
+      @timeupdate="usePlayerStore.handleOnTime"
+      @loadedmetadata="usePlayerStore.handleOnLoaded"
+      @ended="usePlayerStore.handleOnEnded"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-
-const props = defineProps<{
-  src?: string;
-  title?: string;
-  artist?: string;
-  artwork?: string;
-}>();
-
-const audio = useTemplateRef("audio");
-const isPlaying = ref(false);
-const duration = ref(0);
-const currentTime = ref(0);
-const seekPos = ref(0);
+import usePlayerStore from "~/stores/usePlayerStore";
 
 function formattedTime(t: number) {
   if (!t || isNaN(t)) return "0:00";
+
   const mm = Math.floor(t / 60);
   const ss = Math.floor(t % 60)
     .toString()
     .padStart(2, "0");
+
   return `${mm}:${ss}`;
 }
 
-function togglePlay() {
-  if (!audio.value) return;
-  if (audio.value.paused) {
-    audio.value.play();
-  } else {
-    audio.value.pause();
-  }
-}
+const audioElement = useTemplateRef<HTMLAudioElement>(
+  usePlayerStore.audioElementRefId
+);
 
-function handlePrevious() {}
-function handleNext() {}
-
-function handleOnSeekInput() {
-  currentTime.value = seekPos.value;
-}
-
-function handleOnSeekChange() {
-  if (!audio.value) return;
-  audio.value.currentTime = seekPos.value;
-}
-
-function handleOnPlay() {
-  isPlaying.value = true;
-  emit("play");
-}
-
-function handleOnPause() {
-  isPlaying.value = false;
-  emit("pause");
-}
-
-function handleOnTime() {
-  currentTime.value = audio.value?.currentTime || 0;
-  seekPos.value = currentTime.value;
-  emit("timeupdate", currentTime.value);
-}
-
-function handleOnLoaded() {
-  duration.value = audio.value?.duration || 0;
-}
-
-function handleOnEnded() {
-  isPlaying.value = false;
-  emit("ended");
-}
+onMounted(() => {
+  usePlayerStore.setAudioElement(audioElement.value);
+});
 </script>

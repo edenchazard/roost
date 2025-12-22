@@ -4,9 +4,9 @@ diesel::table! {
     albums (id) {
         id -> Int4,
         #[max_length = 255]
-        title -> Varchar,
+        title -> Nullable<Varchar>,
         #[max_length = 255]
-        artist -> Varchar,
+        artist -> Nullable<Varchar>,
         #[max_length = 512]
         picture_url -> Nullable<Varchar>,
     }
@@ -16,14 +16,16 @@ diesel::table! {
     tracks (id) {
         id -> Int4,
         #[max_length = 255]
-        title -> Varchar,
+        title -> Nullable<Varchar>,
         #[max_length = 255]
-        album -> Varchar,
+        album -> Nullable<Varchar>,
         #[max_length = 255]
-        artist -> Varchar,
-        track_number -> Int4,
+        artist -> Nullable<Varchar>,
+        track_number -> Nullable<Int4>,
         #[max_length = 512]
         picture_url -> Nullable<Varchar>,
+        #[max_length = 512]
+        audio_url -> Nullable<Varchar>,
     }
 }
 

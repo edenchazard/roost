@@ -15,7 +15,9 @@
       </div>
       <main class="flex-1 h-full bg-stone-950 rounded-tl-lg"><slot /></main>
     </div>
-    <Player />
+    <KeepAlive>
+      <Player />
+    </KeepAlive>
   </div>
 </template>
 

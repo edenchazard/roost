@@ -7,8 +7,8 @@ use gents_derives::TS;
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Album {
     pub id: i32,
-    pub title: String,
-    pub artist: String,
+    pub title: Option<String>,
+    pub artist: Option<String>,
     pub picture_url: Option<String>,
 }
 
@@ -18,11 +18,12 @@ pub struct Album {
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Track {
     pub id: i32,
-    pub title: String,
-    pub artist: String,
-    pub album: String,
-    pub track_number: i32,
+    pub title: Option<String>,
+    pub artist: Option<String>,
+    pub album: Option<String>,
+    pub track_number: Option<i32>,
     pub picture_url: Option<String>,
+    pub audio_url: Option<String>,
 }
 
 #[ignore]
