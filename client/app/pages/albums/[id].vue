@@ -48,11 +48,19 @@
         <h2 class="text-xl sr-only">Tracks</h2>
         <table class="border-separate w-full font-bold border-spacing-y-1.5">
           <thead>
-            <tr class="uppercase text-xs">
-              <th><span class="sr-only">Play</span></th>
+            <tr class="uppercase text-xs *:not-[.edge]:bg-black/50">
+              <th
+                class="edge bg-linear-to-r from-20% from-black/10 to-black/50"
+              >
+                <span class="sr-only">Play</span>
+              </th>
               <th class="p-2 text-center">#</th>
               <th class="text-left p-2">Title</th>
-              <th class="text-left p-2">Duration</th>
+              <th
+                class="edge bg-linear-to-r to-80% from-black/50 to-black/10 text-center p-2"
+              >
+                Duration
+              </th>
             </tr>
           </thead>
           <tbody>
