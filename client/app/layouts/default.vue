@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-dvh overflow-auto text-white relative bg-black gap-x-8 grid grid-cols-[auto_1fr] grid-rows-[auto_1fr_auto]"
+    class="h-dvh text-white relative bg-black gap-x-8 grid grid-cols-[auto_1fr] grid-rows-[auto_1fr_auto] overflow-y-auto"
   >
     <div
       id="splash"
@@ -38,9 +38,7 @@
       <slot />
     </main>
 
-    <KeepAlive>
-      <Player />
-    </KeepAlive>
+    <Player class="sticky bottom-0 col-span-full" />
   </div>
 </template>
 
