@@ -50,29 +50,6 @@
       <section
         class="col-span-full bg-linear-to-b from-black/20 to-black/10 py-4 px-8"
       >
-        <h2 class="text-xl">By This Artist</h2>
-        <div class="flex gap-4 overflow-x-hidden py-4">
-          <ol class="flex gap-4">
-            <li
-              v-for="n in 5"
-              :key="n"
-              class="size-48 shadow-xl"
-            >
-              <Album
-                :album="{
-                  id: n,
-                  title: `Album Title ${n}`,
-                  artist: album.artist,
-                  pictureUrl: album.pictureUrl,
-                }"
-              />
-            </li>
-          </ol>
-        </div>
-      </section>
-      <section
-        class="col-span-full bg-linear-to-b from-black/20 to-black/10 py-4 px-8"
-      >
         <h2 class="text-xl">Tracks</h2>
         <table class="border-separate w-full font-bold border-spacing-y-1.5">
           <thead>
@@ -117,6 +94,30 @@
             </tr>
           </tbody>
         </table>
+      </section>
+
+      <section
+        class="col-span-full bg-linear-to-b from-black/20 to-black/10 py-4 px-8"
+      >
+        <h2 class="text-xl">By This Artist</h2>
+        <div class="flex gap-4 overflow-x-hidden py-4">
+          <ol class="flex gap-4">
+            <li
+              v-for="n in 5"
+              :key="n"
+              class="size-48 shadow-xl"
+            >
+              <Album
+                :album="{
+                  id: n,
+                  title: `Album Title ${n}`,
+                  artist: album.artist,
+                  pictureUrl: album.pictureUrl,
+                }"
+              />
+            </li>
+          </ol>
+        </div>
       </section>
     </div>
   </div>
