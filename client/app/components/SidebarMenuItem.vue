@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-2">
+  <div class="flex items-center gap-2 py-1">
     <Icon :name="icon" />
     <span>{{ label }}</span>
   </div>
