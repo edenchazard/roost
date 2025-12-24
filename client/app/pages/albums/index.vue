@@ -5,14 +5,14 @@
       defer
     >
       <Transition
-        class="transition-opacity duration-1000"
+        class="transition-colors"
         appear-from-class="opacity-0"
         enter-to-class="opacity-20"
         appear
         @after-appear="backgroundSplash?.classList.add('opacity-20')"
       >
         <div
-          class="size-full bg-repeat"
+          class="size-full"
           ref="backgroundSplash"
           :style="{
             backgroundColor: backgroundStyle,
@@ -28,18 +28,30 @@
         backgroundColor: backgroundStyle,
       }"
     >
-      <div
-        class="text-xl bg-linear-to-r from-black/20 to-black/0 p-4 rounded-lg font-semibold"
-      >
-        <h2 class="inline-block">
-          {{ openedAlbum.title }}
-        </h2>
-        <span class="text-sm"> &bull; 2022 </span>
-      </div>
-      <div>
-        <h3 class="text-lg">{{ openedAlbum.artist }}</h3>
-        <ol class="list-decimal list-inside">
-          <li v-for="track in tracks">{{ track.title }}</li>
+      <div class="space-y-4">
+        <div
+          class="bg-linear-to-r from-black/20 to-black/0 p-4 rounded-lg font-semibold space-y-2"
+        >
+          <h2 class="text-xl inline-block">
+            {{ openedAlbum.title }}
+          </h2>
+          <span class="text-sm"> &bull; 2022 </span>
+          <h3 class="text-sm">{{ openedAlbum.artist }}</h3>
+        </div>
+
+        <ol class="list-none columns-[20rem_auto] space-y-2 text-sm">
+          <li
+            v-for="track in tracks"
+            class="bg-black/25 rounded-lg py-2 px-4 flex items-center gap-2"
+          >
+            <span
+              v-if="track.trackNumber"
+              class="opacity-50 w-2.5"
+              >{{ track.trackNumber }}</span
+            >
+            <span class="flex-1">{{ track.title }}</span>
+            <span class="opacity-50 w-12 text-right"> 3:21 </span>
+          </li>
         </ol>
       </div>
     </div>
