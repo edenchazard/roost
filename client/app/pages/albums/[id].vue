@@ -17,6 +17,7 @@
         />
       </Transition>
     </Teleport>
+
     <div class="grid grid-cols-[auto_1fr] grid-rows-[auto_auto] gap-4 py-4">
       <div class="relative rounded-md overflow-hidden shrink-0 pl-8">
         <img

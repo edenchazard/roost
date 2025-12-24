@@ -1,11 +1,11 @@
 <template>
   <component
     :is="as"
-    class="group size-full relative inline-flex overflow-hidden flex-col rounded-lg"
+    class="group size-full relative inline-flex overflow-hidden flex-col"
   >
     <img
       :src="album.pictureUrl"
-      class="absolute size-48 object-contain group-hover:scale-110 transition-transform duration-300 self-center"
+      class="absolute size-full object-contain group-hover:scale-110 transition-transform duration-300 self-center"
     />
     <div
       class="absolute bottom-0 w-full bg-linear-to-b from-black/70 to-black/50 text-white p-2"

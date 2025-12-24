@@ -14,6 +14,7 @@
     "@nuxt/icon": "2.1.1",
     "@nuxt/test-utils": "3.21.0",
     "@vueuse/nuxt": "14.1.0",
+    "colorthief": "^2.6.0",
     "eslint": "^9.39.2",
     "nuxt": "^4.2.2",
     "vue": "^3.5.25",

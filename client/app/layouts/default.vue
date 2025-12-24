@@ -4,7 +4,7 @@
   >
     <div
       id="splash"
-      class="fixed -inset-8 pointer-events-none blur-lg"
+      class="fixed -inset-8 pointer-events-none"
     ></div>
 
     <header class="col-span-full sticky z-90 top-0 backdrop-blur-xs">
