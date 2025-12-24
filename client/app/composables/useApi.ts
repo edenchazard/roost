@@ -1,7 +1,7 @@
 import type { UseFetchOptions } from "nuxt/app";
 
 export default function <T>(
-  url: string | (() => string),
+  url: Parameters<typeof useFetch>[0],
   options?: UseFetchOptions<T>
 ) {
   return useFetch(url, {

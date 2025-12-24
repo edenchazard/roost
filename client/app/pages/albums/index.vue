@@ -14,14 +14,16 @@
         <div
           class="size-full bg-repeat"
           ref="backgroundSplash"
+          :style="{
+            backgroundColor: backgroundStyle,
+          }"
         />
       </Transition>
     </Teleport>
-
     <div
       v-if="openedAlbum"
       ref="openAlbumListingPanel"
-      class="col-span-full transition-colors p-4"
+      class="col-span-full p-4"
       :style="{
         backgroundColor: backgroundStyle,
       }"
@@ -36,8 +38,8 @@
       </div>
       <div>
         <h3 class="text-lg">{{ openedAlbum.artist }}</h3>
-        <ol>
-          <li>Example 1</li>
+        <ol class="list-decimal list-inside">
+          <li v-for="track in tracks">{{ track.title }}</li>
         </ol>
       </div>
     </div>
@@ -86,6 +88,15 @@ useResizeObserver(albumGrid, recomputeAlbumListingPanel);
 
 const { data } = useApi<Roost.Album[]>("albums");
 
+const { data: tracks, execute: fetchTracks } = useApi<Roost.Track[]>(
+  computed(() => {
+    return openedAlbum.value ? `albums/${openedAlbum.value.id}/tracks` : "";
+  }),
+  {
+    immediate: false,
+  }
+);
+
 const backgroundStyle = computed<string>(() => {
   return Array.isArray(openedAlbumColour.value)
     ? "rgb(" + openedAlbumColour.value.join(",") + ")"
@@ -110,8 +121,12 @@ watch(openedAlbum, async (newAlbum) => {
   img.crossOrigin = "Anonymous";
 
   img.addEventListener("load", async () => {
-    openedAlbumColour.value = await new ColorThief().getColor(img);
-    await recomputeAlbumListingPanel();
+    const [colour] = await Promise.all([
+      new ColorThief().getColor(img),
+      fetchTracks(),
+    ]);
+    recomputeAlbumListingPanel();
+    openedAlbumColour.value = colour;
   });
 
   img.src = newAlbum.pictureUrl;
