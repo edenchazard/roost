@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-24 backdrop-blur-3xl md:mx-auto z-60 shadow-2xl md:w-xl px-4 flex flex-col rounded-lg overflow-hidden p-2 bg-linear-to-b from-black/20 to-black/60"
+    class="h-24 backdrop-blur-3xl md:mx-auto z-60 shadow-2xl md:w-xl px-4 flex flex-col md:rounded-lg overflow-hidden p-2 bg-linear-to-b from-black/20 to-black/60"
   >
     <div class="flex items-center">
       <img

@@ -36,7 +36,7 @@
             {{ openedAlbum.title }}
           </h2>
           <span class="text-sm row-start-1"> &bull; 2022 </span>
-          <h3 class="text-sm">{{ openedAlbum.artist }}</h3>
+          <h3 class="text-sm opacity-50">{{ openedAlbum.artist }}</h3>
           <NuxtLink
             :href="`albums/${openedAlbum.id}`"
             class="row-start-1 row-end-3 self-center border-4 rounded-full p-2 inline-flex items-center justify-center"
