@@ -30,13 +30,22 @@
     >
       <div class="px-2 space-y-4">
         <div
-          class="bg-linear-to-r from-black/20 to-black/0 p-4 rounded-lg font-semibold space-y-2"
+          class="bg-linear-to-r from-black/20 to-black/0 px-4 py-2 rounded-lg font-semibold space-y-2 grid-rows-[auto_auto] grid grid-cols-[auto_1fr_auto] items-baseline"
         >
-          <h2 class="text-xl inline-block">
+          <h2 class="text-xl inline-block row-start-1">
             {{ openedAlbum.title }}
           </h2>
-          <span class="text-sm"> &bull; 2022 </span>
+          <span class="text-sm row-start-1"> &bull; 2022 </span>
           <h3 class="text-sm">{{ openedAlbum.artist }}</h3>
+          <NuxtLink
+            :href="`albums/${openedAlbum.id}`"
+            class="row-start-1 row-end-3 self-center border-4 rounded-full p-2 inline-flex items-center justify-center"
+          >
+            <Icon
+              name="nimbus:arrow-right"
+              size="1.5rem"
+            />
+          </NuxtLink>
         </div>
 
         <ol class="list-none columns-[20rem_auto] space-y-2 text-sm">

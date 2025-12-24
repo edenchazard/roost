@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-dvh text-white relative bg-black gap-x-8 grid grid-cols-[auto_1fr] grid-rows-[auto_1fr_auto] overflow-y-auto"
+    class="h-dvh text-white relative bg-black gap-x-8 grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] overflow-y-auto"
   >
     <div
       id="splash"
@@ -34,11 +34,12 @@
       </nav>
     </div>
 
-    <main class="bg-black/10 z-1 col-span-full md:col-span-1 md:row-span-1">
+    <main
+      class="bg-black/10 z-1 col-span-full md:col-span-1 md:row-span-1 relative flex flex-col *:first:flex-1"
+    >
       <slot />
+      <Player class="sticky bottom-0" />
     </main>
-
-    <Player class="sticky bottom-0 col-span-full" />
   </div>
 </template>
 
