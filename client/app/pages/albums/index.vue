@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4">
+  <div class="py-4">
     <Teleport
       to="#splash"
       defer
@@ -23,7 +23,7 @@
     <div
       v-if="openedAlbum"
       ref="openAlbumListingPanel"
-      class="col-span-full -top-4 pt-4 relative"
+      class="col-span-full -top-4 pt-4 relative justify-self-stretch"
       :style="{
         backgroundColor: backgroundStyle,
       }"
@@ -60,9 +60,9 @@
       />
     </div>
 
-    <h1 class="text-xl mb-4">Albums</h1>
+    <h1 class="text-xl mb-4 px-2">Albums</h1>
     <ol
-      class="grid grid-cols-[repeat(auto-fill,15rem)] gap-y-4"
+      class="grid grid-cols-[repeat(auto-fill,minmax(15rem,1fr))] gap-y-4 w-full"
       ref="albumGrid"
     >
       <li

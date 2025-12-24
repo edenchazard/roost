@@ -11,7 +11,7 @@
       <div class="text-white p-4 bg-black/20">logo</div>
     </header>
 
-    <div class="p-4 text-sm z-1 w-44 mt-4">
+    <div class="p-4 text-sm z-1 hidden overflow-hidden md:block md:w-44 mt-4">
       <nav class="flex flex-col gap-4 sticky top-18">
         <SidebarMenuItem
           icon="streamline-pixel:music-album-cd-disk-playlist"
@@ -34,7 +34,7 @@
       </nav>
     </div>
 
-    <main class="bg-black/10 z-1">
+    <main class="bg-black/10 z-1 col-span-full md:col-span-1 md:row-span-1">
       <slot />
     </main>
 
