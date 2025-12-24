@@ -8,11 +8,10 @@
         class="transition-colors"
         appear-from-class="opacity-0"
         enter-to-class="opacity-20"
-        appear
-        @after-appear="backgroundSplash?.classList.add('opacity-20')"
+        @after-enter="backgroundSplash?.classList.add('opacity-20')"
       >
         <div
-          class="size-full"
+          class="size-full opacity-50"
           ref="backgroundSplash"
           :style="{
             backgroundColor: backgroundStyle,
@@ -20,15 +19,16 @@
         />
       </Transition>
     </Teleport>
+
     <div
       v-if="openedAlbum"
       ref="openAlbumListingPanel"
-      class="col-span-full p-4"
+      class="col-span-full -top-4 pt-4 relative"
       :style="{
         backgroundColor: backgroundStyle,
       }"
     >
-      <div class="space-y-4">
+      <div class="px-2 space-y-4">
         <div
           class="bg-linear-to-r from-black/20 to-black/0 p-4 rounded-lg font-semibold space-y-2"
         >
@@ -54,17 +54,24 @@
           </li>
         </ol>
       </div>
+      <img
+        :src="openedAlbum.pictureUrl"
+        class="h-4 w-full object-cover mask-t-to-100%"
+      />
     </div>
 
     <h1 class="text-xl mb-4">Albums</h1>
     <ol
-      class="grid grid-cols-[repeat(auto-fill,15rem)]"
+      class="grid grid-cols-[repeat(auto-fill,15rem)] gap-y-4"
       ref="albumGrid"
     >
       <li
         v-for="album in data"
         :key="album.id"
-        class="size-60 px-2 pt-2"
+        class="size-60"
+        :class="{
+          'px-2 pt-2': openedAlbum?.id === album.id,
+        }"
         :style="{
           backgroundColor:
             openedAlbum?.id === album.id ? backgroundStyle : 'transparent',
