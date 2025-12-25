@@ -1,7 +1,0 @@
-#[derive(Debug)]
-pub struct Track {
-    pub path: String,
-    pub title: String,
-    pub artist: String,
-    pub album: String,
-}

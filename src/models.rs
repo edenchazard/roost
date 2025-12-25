@@ -12,6 +12,15 @@ pub struct Album {
     pub picture_url: Option<String>,
 }
 
+#[derive(Insertable)]
+#[diesel(table_name = crate::schema::albums)]
+#[diesel(check_for_backend(diesel::pg::Pg))]
+pub struct NewAlbum {
+    pub title: Option<String>,
+    pub artist: Option<String>,
+    pub picture_url: Option<String>,
+}
+
 #[derive(Queryable, Selectable, TS, Clone)]
 #[ts(file_name = "track.ts", rename_all = "camelCase")]
 #[diesel(table_name = crate::schema::tracks)]
@@ -24,6 +33,18 @@ pub struct Track {
     pub track_number: Option<i32>,
     pub picture_url: Option<String>,
     pub audio_url: Option<String>,
+}
+
+#[derive(Insertable)]
+#[diesel(table_name = crate::schema::tracks)]
+#[diesel(check_for_backend(diesel::pg::Pg))]
+pub struct NewTrack {
+    pub title: Option<String>,
+    pub artist: Option<String>,
+    pub album: Option<String>,
+    pub track_number: Option<i32>,
+    pub picture_url: Option<String>,
+    pub audio_url: String,
 }
 
 #[ignore]
