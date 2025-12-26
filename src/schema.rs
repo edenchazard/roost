@@ -13,6 +13,21 @@ diesel::table! {
 }
 
 diesel::table! {
+    media (id) {
+        id -> Int4,
+        #[max_length = 255]
+        path -> Varchar,
+        mime_type -> Text,
+        #[max_length = 50]
+        type_ -> Varchar,
+        mediable_id -> Int4,
+        #[max_length = 50]
+        mediable_type -> Varchar,
+        created_at -> Nullable<Timestamptz>,
+    }
+}
+
+diesel::table! {
     tracks (id) {
         id -> Int4,
         #[max_length = 255]
@@ -29,4 +44,4 @@ diesel::table! {
     }
 }
 
-diesel::allow_tables_to_appear_in_same_query!(albums, tracks,);
+diesel::allow_tables_to_appear_in_same_query!(albums, media, tracks,);

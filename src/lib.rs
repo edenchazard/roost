@@ -1,8 +1,10 @@
 pub mod controllers;
 pub mod directory_reader;
+pub mod filesystem;
 pub mod models;
 pub mod reader;
 pub mod schema;
+
 use diesel::prelude::*;
 use dotenvy::dotenv;
 use std::env;
