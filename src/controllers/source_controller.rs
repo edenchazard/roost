@@ -1,7 +1,6 @@
-use std::thread;
-
-use crate::{directory_reader, filesystem::insert_media_records};
+use crate::{directory_reader, filesystem::sync_tracks};
 use axum::{Router, http::StatusCode, response::IntoResponse, routing::get};
+use tokio::task;
 
 pub fn source_controller() -> Router<()> {
     Router::<()>::new().route("/scan", get(scan))
@@ -18,9 +17,7 @@ async fn scan() -> Result<impl IntoResponse, StatusCode> {
         }
     };
 
-    thread::spawn(|| {
-        insert_media_records(supported);
-    });
+    task::spawn(sync_tracks(supported));
 
     Ok(StatusCode::OK)
 }

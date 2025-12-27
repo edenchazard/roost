@@ -1,6 +1,6 @@
 use std::path::Path;
 
-use crate::reader::input_track::InputTrack;
+use crate::{models, reader::input_track::InputTrack};
 
 pub mod input_track;
 mod mp3;
@@ -18,4 +18,5 @@ pub fn new(file_path: &str) -> Result<Box<dyn ReaderTrait>, ()> {
 
 pub trait ReaderTrait {
     fn read(&self, file_path: &str) -> Result<InputTrack, Box<dyn std::error::Error>>;
+    fn media(&self, file_path: &str) -> Result<Vec<models::NewMedia>, Box<dyn std::error::Error>>;
 }

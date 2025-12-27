@@ -17,12 +17,8 @@ diesel::table! {
         id -> Int4,
         #[max_length = 255]
         path -> Varchar,
-        mime_type -> Text,
         #[max_length = 50]
         type_ -> Varchar,
-        mediable_id -> Int4,
-        #[max_length = 50]
-        mediable_type -> Varchar,
         created_at -> Nullable<Timestamptz>,
     }
 }
@@ -36,6 +32,8 @@ diesel::table! {
         album -> Nullable<Varchar>,
         #[max_length = 255]
         artist -> Nullable<Varchar>,
+        #[max_length = 255]
+        album_artist -> Nullable<Varchar>,
         track_number -> Nullable<Int4>,
         #[max_length = 512]
         picture_url -> Nullable<Varchar>,

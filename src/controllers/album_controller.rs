@@ -1,4 +1,4 @@
-use crate::models::{self, Album, Track};
+use crate::models::{self, Album};
 use crate::schema::albums::dsl::*;
 use axum::{Json, Router, extract::Path, http::StatusCode, response::IntoResponse, routing::get};
 use diesel::ExpressionMethods;
@@ -57,7 +57,6 @@ async fn show_tracks(Path(album_id): Path<i32>) -> Result<impl IntoResponse, Sta
 
     let album_result = albums
         .find(album_id)
-        .select(Album::as_select())
         .first::<models::Album>(conn)
         .optional();
 
@@ -70,13 +69,13 @@ async fn show_tracks(Path(album_id): Path<i32>) -> Result<impl IntoResponse, Sta
         }
     };
 
-    let results = tracks::table
-        .select(Track::as_select())
+    let result = tracks::table
+        .filter(tracks::album_artist.eq(album.artist))
         .filter(tracks::album.eq(album.title))
         .order(tracks::track_number.asc())
         .load::<models::Track>(conn);
 
-    match results {
+    match result {
         Ok(album) => Ok(Json(album).into_response()),
         Err(diesel::result::Error::NotFound) => Err(StatusCode::NOT_FOUND),
         Err(e) => {

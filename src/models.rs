@@ -29,8 +29,9 @@ pub struct NewAlbum {
 pub struct Track {
     pub id: i32,
     pub title: Option<String>,
-    pub artist: Option<String>,
     pub album: Option<String>,
+    pub artist: Option<String>,
+    pub album_artist: Option<String>,
     pub track_number: Option<i32>,
     pub picture_url: Option<String>,
     pub audio_url: Option<String>,
@@ -41,6 +42,7 @@ pub struct NewTrack {
     pub title: Option<String>,
     pub artist: Option<String>,
     pub album: Option<String>,
+    pub album_artist: Option<String>,
     pub track_number: Option<i32>,
     pub audio_url: String,
     pub media: Option<Vec<NewMedia>>,
@@ -53,10 +55,7 @@ pub struct NewTrack {
 pub struct Media {
     pub id: i32,
     pub path: String,
-    pub mime_type: String,
     pub type_: String,
-    pub mediable_id: i32,
-    pub mediable_type: String,
 }
 
 #[derive(Deserialize, Serialize, Debug)]

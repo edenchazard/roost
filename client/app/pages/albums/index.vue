@@ -19,7 +19,6 @@
         />
       </Transition>
     </Teleport>
-
     <div
       v-if="openedAlbum"
       ref="openAlbumListingPanel"
@@ -38,7 +37,7 @@
           <span class="text-sm row-start-1"> &bull; 2022 </span>
           <h3 class="text-sm opacity-50">{{ openedAlbum.artist }}</h3>
           <NuxtLink
-            :href="`albums/${openedAlbum.id}`"
+            :href="`/albums/${openedAlbum.id}`"
             class="row-start-1 row-end-3 self-center border-4 rounded-full p-2 inline-flex items-center justify-center"
           >
             <Icon
@@ -58,7 +57,7 @@
               class="opacity-50 w-2.5"
               >{{ track.trackNumber }}</span
             >
-            <span class="flex-1">{{ track.title }}</span>
+            <span class="flex-1 truncate">{{ track.title }}</span>
             <span class="opacity-50 w-12 text-right"> 3:21 </span>
           </li>
         </ol>
@@ -90,7 +89,7 @@
         <Album
           :album="album"
           as="button"
-          :href="`/albums/${album.id}`"
+          :href="`albums/${album.id}`"
           @click="handleToggleAlbum(album)"
         />
       </li>
