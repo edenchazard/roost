@@ -1,6 +1,6 @@
 -- Your SQL goes here
 CREATE TABLE tracks (
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     title VARCHAR(255),
     album VARCHAR(255),
     artist VARCHAR(255),
