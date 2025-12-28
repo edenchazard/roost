@@ -38,7 +38,7 @@ diesel::table! {
         #[max_length = 512]
         picture_url -> Nullable<Varchar>,
         #[max_length = 512]
-        audio_url -> Nullable<Varchar>,
+        audio_url -> Varchar,
     }
 }
 

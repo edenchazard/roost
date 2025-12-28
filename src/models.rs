@@ -34,7 +34,7 @@ pub struct Track {
     pub album_artist: Option<String>,
     pub track_number: Option<i32>,
     pub picture_url: Option<String>,
-    pub audio_url: Option<String>,
+    pub audio_url: String,
 }
 
 #[derive(Deserialize, Serialize, Debug)]

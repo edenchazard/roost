@@ -7,5 +7,5 @@ CREATE TABLE tracks (
     album_artist VARCHAR(255),
     track_number INT,
     picture_url VARCHAR(512),
-    audio_url VARCHAR(512) UNIQUE
+    audio_url VARCHAR(512) NOT NULL UNIQUE
 );
