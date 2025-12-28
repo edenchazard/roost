@@ -19,6 +19,7 @@
         />
       </Transition>
     </Teleport>
+
     <div
       v-if="openedAlbum"
       ref="openAlbumListingPanel"
@@ -29,13 +30,16 @@
     >
       <div class="px-2 space-y-4">
         <div
-          class="bg-linear-to-r from-black/20 to-black/0 px-4 py-2 rounded-lg font-semibold space-y-2 grid-rows-[auto_auto] grid grid-cols-[auto_1fr_auto] items-baseline"
+          class="bg-linear-to-r from-black/20 to-black/0 px-4 py-2 rounded-lg font-semibold space-y-2 flex justify-between gap-y-2"
         >
-          <h2 class="text-xl inline-block row-start-1">
-            {{ openedAlbum.title }}
-          </h2>
-          <span class="text-sm row-start-1"> &bull; 2022 </span>
-          <h3 class="text-sm opacity-50">{{ openedAlbum.artist }}</h3>
+          <div>
+            <h2 class="text-xl inline-block row-start-1">
+              {{ openedAlbum.title }}
+            </h2>
+            <span class="text-sm row-start-1"> &bull; 2022 </span>
+            <h3 class="text-sm opacity-50">{{ openedAlbum.artist }}</h3>
+          </div>
+
           <NuxtLink
             :href="`/albums/${openedAlbum.id}`"
             class="row-start-1 row-end-3 self-center border-4 rounded-full p-2 inline-flex items-center justify-center"
@@ -50,20 +54,23 @@
         <ol class="list-none columns-[20rem_auto] space-y-2 text-sm">
           <li
             v-for="track in tracks"
-            class="bg-black/25 rounded-lg py-2 px-4 flex items-center gap-2"
+            class="bg-black/25 rounded-lg py-2 px-3 grid grid-cols-[1.5rem_1fr_2rem] items-center gap-x-2 overflow-hidden"
           >
             <span
               v-if="track.trackNumber"
-              class="opacity-50 w-2.5"
+              class="opacity-50 text-center"
               >{{ track.trackNumber }}</span
             >
-            <span class="flex-1 truncate">{{ track.title }}</span>
-            <span class="opacity-50 w-12 text-right"> 3:21 </span>
+            <span class="truncate font-semibold">{{ track.title }}</span>
+            <span class="opacity-50 text-right"> 3:21 </span>
+            <span class="col-start-2 col-end-3 text-xs truncate"
+              >{{ track.artist }}
+            </span>
           </li>
         </ol>
       </div>
       <img
-        :src="openedAlbum.pictureUrl"
+        :src="asset(openedAlbum.pictureUrl)"
         class="h-4 w-full object-cover mask-t-to-100%"
       />
     </div>
@@ -87,10 +94,9 @@
         :data-album-id="album.id"
       >
         <Album
+          as="a"
           :album="album"
-          as="button"
-          :href="`albums/${album.id}`"
-          @click="handleToggleAlbum(album)"
+          :href="openedAlbum?.id === album.id ? `#` : `#q=${album.id}`"
         />
       </li>
     </ol>
@@ -106,12 +112,36 @@ const albumGrid = useTemplateRef("albumGrid");
 const backgroundSplash = useTemplateRef("backgroundSplash");
 const openAlbumListingPanel = useTemplateRef("openAlbumListingPanel");
 
-const openedAlbum = ref<Roost.Album>();
 const openedAlbumColour = ref<[number, number, number] | "transparent">(
   "transparent"
 );
 
 useResizeObserver(albumGrid, recomputeAlbumListingPanel);
+
+const params = useUrlSearchParams<{
+  q?: string;
+}>("hash-params", {
+  initialValue: {
+    q: undefined,
+  },
+  removeFalsyValues: true,
+  removeNullishValues: true,
+});
+
+const openedAlbum = computed<Roost.Album | undefined>(() => {
+  if (!params.q) {
+    return undefined;
+  }
+
+  const albumId = parseInt(params.q);
+  if (isNaN(albumId)) {
+    return undefined;
+  }
+
+  return data.value?.find((a) => a.id === albumId);
+});
+
+const isOpen = computed(() => !!openedAlbum.value);
 
 const { data } = useApi<Roost.Album[]>("albums");
 
@@ -119,9 +149,7 @@ const { data: tracks, execute: fetchTracks } = useApi<Roost.Track[]>(
   computed(() => {
     return openedAlbum.value ? `albums/${openedAlbum.value.id}/tracks` : "";
   }),
-  {
-    immediate: false,
-  }
+  { immediate: false }
 );
 
 const backgroundStyle = computed<string>(() => {
@@ -134,12 +162,13 @@ const albumElement = computed(() => {
   if (!openedAlbum.value) return null;
 
   return albumGrid.value?.querySelector(
-    `[data-album-id='${openedAlbum.value?.id}']`
+    `[data-album-id='${openedAlbum.value.id}']`
   );
 });
 
 watch(openedAlbum, async (newAlbum) => {
   openedAlbumColour.value = "transparent";
+
   if (!newAlbum?.pictureUrl) {
     return;
   }
@@ -156,17 +185,8 @@ watch(openedAlbum, async (newAlbum) => {
     openedAlbumColour.value = colour;
   });
 
-  img.src = newAlbum.pictureUrl;
+  img.src = asset(newAlbum.pictureUrl);
 });
-
-async function handleToggleAlbum(album?: Roost.Album) {
-  if (openedAlbum.value?.id === album?.id) {
-    openedAlbum.value = undefined;
-    return;
-  }
-
-  openedAlbum.value = album;
-}
 
 async function recomputeAlbumListingPanel() {
   await nextTick();

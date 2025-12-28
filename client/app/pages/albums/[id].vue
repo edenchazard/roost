@@ -1,6 +1,9 @@
 <template>
   <div v-if="album">
-    <Teleport to="#splash">
+    <Teleport
+      to="#splash"
+      v-if="album.pictureUrl"
+    >
       <Transition
         class="transition-opacity duration-1000"
         appear-from-class="opacity-0"
@@ -12,7 +15,7 @@
           ref="backgroundSplash"
           class="absolute bg-cover size-full"
           :style="{
-            backgroundImage: `url(${album.pictureUrl})`,
+            backgroundImage: `url(${asset(album.pictureUrl)})`,
           }"
         />
       </Transition>
@@ -20,19 +23,21 @@
 
     <div class="grid grid-cols-[auto_1fr] grid-rows-[auto_auto] gap-4 py-4">
       <div class="relative rounded-md overflow-hidden shrink-0 pl-8">
-        <img
-          :src="album?.pictureUrl"
-          alt="Album Cover Art"
-          class="size-64 object-cover"
-        />
-        <div class="h-16 overflow-hidden">
-          <div
-            aria-hidden="true"
-            class="size-64 bg-cover -scale-y-100 mask-t-from-0% mask-t-to-25%"
-            :style="{
-              backgroundImage: `url(${album?.pictureUrl})`,
-            }"
+        <div v-if="album.pictureUrl">
+          <img
+            :src="asset(album.pictureUrl)"
+            alt="Album Cover Art"
+            class="size-64 object-cover"
           />
+          <div class="h-16 overflow-hidden">
+            <div
+              aria-hidden="true"
+              class="size-64 bg-cover -scale-y-100 mask-t-from-0% mask-t-to-25%"
+              :style="{
+                backgroundImage: `url(${asset(album.pictureUrl)})`,
+              }"
+            />
+          </div>
         </div>
       </div>
 
