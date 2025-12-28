@@ -1,4 +1,5 @@
 use crate::models::{self, Album};
+use crate::schema;
 use crate::schema::albums::dsl::*;
 use axum::{Json, Router, extract::Path, http::StatusCode, response::IntoResponse, routing::get};
 use diesel::ExpressionMethods;
@@ -18,7 +19,10 @@ pub fn album_controller() -> Router<()> {
 async fn index() -> Result<impl IntoResponse, StatusCode> {
     let conn = &mut crate::establish_connection();
 
-    let results = albums.load::<models::Album>(conn);
+    let results = albums
+        .order(schema::albums::artist.asc())
+        .order(schema::albums::title.asc())
+        .load::<models::Album>(conn);
 
     match results {
         Ok(results) => Ok(Json(results).into_response()),
